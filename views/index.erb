@@ -150,8 +150,8 @@
 						if (data[":status"] == "failed"){
 							$(".db_files_table").hide()
 					}else {
-						$(".db_sign_in").hide()
-						$(".db_files_table").show()
+						$("#db_sign_in").hide();
+						$(".db_files_table").show();
 						$(".db_files").append("<tr> <td> <a href='#'>" + val["path"] + "</a> </td> <td>" + val["modified"] + "</td> </tr>")
 					};
 					})})
