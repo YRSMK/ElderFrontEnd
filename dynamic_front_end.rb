@@ -36,7 +36,7 @@ class DynamicFrontEnd < Sinatra::Base
     session['dropbox_access_token'] ||= ''
     if session['dropbox_access_token'] != ''
       content_type :json
-      if !$redis.get("media")
+      if !$redis.get("media-#{session[:username]}")
         search = get_dropbox_client.metadata('/')["contents"]
         media = []
         search.each do |item|
@@ -47,8 +47,8 @@ class DynamicFrontEnd < Sinatra::Base
           end
         end
         json = Oj.dump(media)
-        $redis.set("media", json)
-        $redis.expire("media", 300)
+        $redis.set("media-#{session[:username]}", json)
+        $redis.expire("media-#{session[:username]}", 300)
         json
       else
         Oj.dump(Oj.load($redis.get("media")))
