@@ -108,3 +108,7 @@ input {
 .center {
 	text-align: center;
 }
+
+.mt {
+	margin-bottom: 2em;
+}
