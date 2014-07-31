@@ -7,7 +7,7 @@ class DynamicFrontEnd < Sinatra::Base
   enable :sessions
   use Rack::Flash
   set :session_secret, "e9a37a7612ad2b501c648ccba28b4a539e31c9a732452b677b2b7d39d9daa39da18b06da24b9efdfd5ea312789ded1fd776bc722f842f66a02d3357c246c56de"
-
+  $redis = Redis.new(:url => REDISCLOUD_URL)
   ##########################################
   # Methods                                #
   ##########################################
@@ -36,16 +36,23 @@ class DynamicFrontEnd < Sinatra::Base
     session['dropbox_access_token'] ||= ''
     if session['dropbox_access_token'] != ''
       content_type :json
-      search = get_dropbox_client.metadata('/')["contents"]
-      media = []
-      search.each do |item|
-        if !item["mime_type"].nil?
-          if item["mime_type"].include?("image")
-            media.push(get_dropbox_client.media(item["path"]))
+      if !$redis.get("media")
+        search = get_dropbox_client.metadata('/')["contents"]
+        media = []
+        search.each do |item|
+          if !item["mime_type"].nil?
+            if item["mime_type"].include?("image")
+              media.push(get_dropbox_client.media(item["path"]))
+            end
           end
         end
+        json = Oj.dump(media)
+        $redis.set("media", json)
+        $redis.expire("media", 300)
+        json
+      else
+        Oj.dump(Oj.load($redis.get("media")))
       end
-      Oj.dump(media)
     else
       Oj.dump({status: "failed"})
     end
