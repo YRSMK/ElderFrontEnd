@@ -14,7 +14,7 @@ gem "sequel"
 gem "mysql2"
 
 # Redis
-gem "hiredis", "~> 0.4"
+# gem "hiredis", "~> 0.4"
 gem "redis", "~> 3.0", :require => ["redis/connection/hiredis", "redis"]
 gem "fakeredis", "~> 0.4"
 

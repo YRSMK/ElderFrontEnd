@@ -24,6 +24,7 @@
 		<link rel="shortcut icon" href="img/favicon.png">
 		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/jquery.slick/1.3.6/slick.css"/>
+		<link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.5.1.css">
 	</head>
 	<body>
 		<div class="container">
@@ -138,27 +139,9 @@
 						<%end%>
 					</div>
 					<script type="text/javascript" src="js/jquery.min.js"></script>
-					<script type="text/javascript" src="js/bootstrap.min.js"></script>
 					<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.slick/1.3.6/slick.min.js"></script>
-
-					<script type="text/javascript">
-					$( document ).ready(
-					$.getJSON('/api/getfiles/dropbox', function(data){$.each(data, function(key,val){
-						if (data[":status"] == "failed"){
-					}else {
-						$("#db_sign_in").hide()
-						$("#images").append("<img src='" + val["url"] + "'/>")
-					};
-					$('#images').slick({
-  dots: true,
-  infinite: true,
-  speed: 500,
-  fade: true,
-  slide: '> div',
-  cssEase: 'linear'
-});
-					})})
-					);
-					</script>
+					<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+					<script src="http://cdn.oesmith.co.uk/morris-0.5.1.min.js"></script>
+					<script type="text/javascript" src="js/scripts.js"></script>
 				</body>
 			</html>
