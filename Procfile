@@ -1,0 +1,1 @@
+web: shotgun -o 0.0.0.0 -p $PORT -s puma config.ru

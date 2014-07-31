@@ -1,0 +1,8 @@
+select * from tag, t_connections, articles where tag.id = t_connections.tid and t_connections.orig = 1 and t_connections.uid_ = articles.id and tag.tag = 'QuickTime';
+
+
+select tid from t_connections where uid_ = #{UID}
+
+each tid:
+
+select * from artciles where id = #{tid}

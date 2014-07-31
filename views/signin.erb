@@ -1,0 +1,70 @@
+<html>
+	<head>
+		<title>Sign In | <%=@title%></title>
+		<style>
+			div{
+				color: darkgray;
+				text-align: center;
+			}
+			.submit{
+				text-align:center;
+				background-color:white;
+				border:1px solid lightgray;
+				width:20%;
+				height:10%;
+				font-family:DEFAULT;
+				font-size:130%;
+				color:black
+			}
+			.submit:hover{
+				text-align:center;
+				background-color:lightgray;
+				border:1px solid lightgray;
+				width:20%;
+				height:10%;
+				font-family:DEFAULT;
+				font-size:130%;
+				color:black;
+			}
+			input{
+				height:10%;
+				width: 50%;
+				text-align:center;
+				margin:9%;
+			}
+			.half{
+				font-size: 2em
+			}
+		</style>
+		<link href="../css/bootstrap.min.css" rel="stylesheet">
+		<link href="../css/validetta.min.css" rel="stylesheet">
+		<link href="../css/style.css" rel="stylesheet">
+	</head>
+	<body>
+		<span class="half silver"><a href="/">Return to Eldernet</a></span>
+		<div class="prime">
+			Login
+		</div>
+		<%if flash[:message]%>
+		<div class="alert alert-warning" role="alert"><%=flash[:message]%></div>
+		<%end%>
+		<form role="form" id="form" class="table" action="/login/signin" method="post">
+			<div class="form-group">
+				<input type="text" name="username" placeholder="Eldername" data-validetta="required,minLength[3],maxLength[32]">
+			</div>
+			<div class="form-group">
+				<input type="password" name="password" placeholder="Elderpass" data-validetta="required,minLength[8],maxLength[64]">
+			</div>
+			<div class="form-group">
+				<button class="submit link"id="submit">Login</button>
+			</div>
+			</from>
+			<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+			<script type="text/javascript" src="../js/validetta.min.js"></script>
+			<script type="text/javascript">
+			$( document ).ready(function() {
+			$('#form').validetta({ realTime : true});
+			});
+			</script>
+		</body>
+	</html>

@@ -1,0 +1,140 @@
+<html>
+	<head>
+		<title>Add Apps | <%=@title%></title>
+		<style>
+			div{
+				color: darkgray;
+				text-align: center;
+			}
+			.submit{
+				text-align:center;
+				background-color:white;
+				border:1px solid lightgray;
+				width:20%;
+				height:10%;
+				font-family:DEFAULT;
+				font-size:130%;
+				color:black
+			}
+			.submit:hover{
+				text-align:center;
+				background-color:lightgray;
+				border:1px solid lightgray;
+				width:20%;
+				height:10%;
+				font-family:DEFAULT;
+				font-size:130%;
+				color:black;
+			}
+			input{
+				height:10%;
+				width: 50%;
+				text-align:center;
+				margin:9%;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			.half{
+				font-size: 2em
+			}
+		</style>
+		<link href="../../css/bootstrap.min.css" rel="stylesheet">
+		<link href="../../css/validetta.min.css" rel="stylesheet">
+		<link href="../../css/style.css" rel="stylesheet">
+	</head>
+	<body>
+		<span class="half silver"><a href="/">Return to Eldernet</a></span>
+		<div class="prime">
+			Add an App
+		</div>
+		<%if flash[:message]%>
+		<div class="alert alert-warning" role="alert"><%=flash[:message]%></div>
+		<%end%>
+		<form role="form" id="form" class="table" action="/admin/apps" method="post">
+			<fieldset>
+				<!-- Text input-->
+				<div class="control-group">
+					<label class="control-label" for="name">App Name:</label>
+					<div class="controls">
+						<input id="name" name="name" type="text" placeholder="e.g. Flash Player" class="input-xlarge" data-validetta="required,minLength[3],maxLength[40]">
+					</div>
+				</div>
+				<!-- Text input-->
+				<div class="control-group">
+					<label class="control-label" for="url">Download URL:</label>
+					<div class="controls">
+						<input id="url" name="url" type="text" placeholder="e.g. https://fpdownload.macromedia.com/get/flashplayer/pdc/14.0.0.145/install_flash_player.exe" class="input-xlarge" data-validetta="required,minLength[3],maxLength[400]">
+					</div>
+				</div>
+				<!-- Select Basic -->
+				<div class="control-group">
+					<label class="control-label" for="platform">Operating System:</label>
+					<div class="controls">
+						<select id="platform" name="platform" class="input-xlarge form-control select" data-validetta="required">
+							<option value="Windows 8/Windows Server 2012">Windows 8/Windows Server 2012</option>
+							<option value="Windows 7/Vista/XP/2008/2003">Windows 7/Vista/XP/2008/2003</option>
+							<option value="Mac OS X 10.6 - 10.9">Mac OS X 10.6 - 10.9</option>
+							<option value="Linux (64-bit)">Linux (64-bit)</option>
+							<option value="Linux (32-bit)">Linux (32-bit)</option>
+						</select>
+					</div>
+				</div>
+				<!-- Text input-->
+				<div class="control-group">
+					<label class="control-label" for="version">App Version:</label>
+					<div class="controls">
+						<input id="version" name="version" type="text" placeholder="eg. 12.04" class="input-xlarge" data-validetta="required,minLength[3],maxLength[40]">
+					</div>
+				</div>
+				<!-- Text input-->
+				<div class="control-group">
+					<label class="control-label" for="Pub">Pub:</label>
+					<div class="controls">
+						<input id="pub" name="pub" type="text" placeholder="" class="input-xlarge" data-validetta="maxLength[40]">
+					</div>
+				</div>
+				<!-- Textarea -->
+				<div class="control-group">
+					<label class="control-label" for="desc">Description:</label>
+					<div class="controls">
+						<textarea id="desc" name="desc" class="form-control select desc" data-validetta="maxLength[400]"></textarea>
+					</div>
+				</div>
+				<!-- File Button -->
+				<div class="control-group">
+					<label class="control-label" for="icon">Icon:</label>
+					<div class="controls">
+						<input id="icon" class="input-file" type="file">
+					</div>
+				</div>
+				<input type="hidden" name="icon" value="" id="hiddenicon">
+				<!-- Button -->
+				<div class="control-group">
+					<label class="control-label" for="submit"></label>
+					<div class="controls">
+						<button id="submit" name="submit" class="btn btn-primary">Add App</button>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		<script type="text/javascript" src="../../js/validetta.min.js"></script>
+		<script type="text/javascript">
+		$( document ).ready(function() {
+		$('#form').validetta({ realTime : true});
+		function readImage(input) {
+			if ( input.files && input.files[0] ) {
+					var FR= new FileReader();
+					FR.onload = function(e) {
+						$('#hiddenicon').val( e.target.result );
+					};
+					FR.readAsDataURL( input.files[0] );
+				}
+			}
+			$("#icon").change(function(){
+				readImage( this );
+			});
+		});
+		</script>
+	</body>
+</html>

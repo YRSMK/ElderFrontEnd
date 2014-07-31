@@ -1,0 +1,110 @@
+.mt {
+	margin-top: 2em;
+}
+.circular-pic {
+	width: 8em;
+	height: 8em;
+	border-radius: 150px;
+	-webkit-border-radius: 150px;
+	-moz-border-radius: 150px;
+	background: url(http://www.newyorkdailysun.com/wp-content/uploads/2013/06/old-person.jpg) no-repeat;
+	background-position:center;
+	background-size:contain;
+	}
+
+.username {
+	margin-left: 2em;
+	font-size: 5em;
+	color: #c4c4c4;
+}
+
+.slogan {
+	font-size: 3em;
+	color: #c4c4c4;
+}
+
+.prime {
+	font-size: 5em;
+	margin-top: 1em;
+}
+
+.secondary {
+	font-size: 1em;
+	margin-tom: 1em;
+}
+
+.black {
+	color: #000
+}
+
+.silver {
+	color: #c4c4c4;
+}
+
+.link a{
+	font-size: 3em;
+	color: #6f6f6f;
+}
+
+.link a:hover{
+	text-decoration: none;
+	color: #c4c4c4;
+}
+
+#query {
+	border: 3px solid #000;
+	margin-top: 1.5em;
+	height: 4em;
+}
+
+input {
+	border: 3px solid #000;
+	height: 4em;
+	margin-left: auto ;
+	margin-right: auto ;
+}
+
+.select {
+	border: 3px solid #000;
+	width: 50%;
+	margin-left: auto ;
+	margin-right: auto ;
+}
+
+.control-label {
+	color: #000;
+}
+
+.desc {
+	min-height: 15em;
+}
+
+.wordsearch {
+	font-size: 21px;
+	font-weight: 200;
+	line-height: 2;
+	background-color: #eee;
+}
+
+.white-panel {
+	text-align: center;
+	background: #ffffff;
+	color: #797979;
+}
+
+.white-panel .white-header {
+	background: #f4f4f4;
+	padding: 3px;
+	margin-bottom: 15px;
+	color: #989898;
+}
+
+.pn {
+	overflow: scroll;
+	height: 20em;
+	box-shadow: 0 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+.center {
+	text-align: center;
+}

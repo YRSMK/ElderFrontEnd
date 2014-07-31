@@ -1,0 +1,6 @@
+# Sequel Database Configuration
+
+development: "mysql2://root:yrs2014@178.62.32.195:3306/elderbase"
+test: "mysql2://root:yrs2014@178.62.32.195:3306/elderbase"
+production: "mysql2://root:yrs2014@178.62.32.195:3306/elderbase"
+
