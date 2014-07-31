@@ -15,7 +15,7 @@ gem "mysql2"
 
 # Redis
 # gem "hiredis", "~> 0.4"
-gem "redis", "~> 3.0", :require => ["redis/connection/hiredis", "redis"]
+gem "redis", "~> 3.0"
 gem "fakeredis", "~> 0.4"
 
 group :development do

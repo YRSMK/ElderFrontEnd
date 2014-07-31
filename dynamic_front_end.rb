@@ -61,6 +61,7 @@ class DynamicFrontEnd < Sinatra::Base
   get "/" do
     if session[:username]
       users = DB[:users]
+      @temp = DB[%Q(select * from temp_sensors order by date desc;)].first
       @user = users.where(username: session[:username]).first
     end
     @title = "Elder Net"
@@ -69,9 +70,7 @@ class DynamicFrontEnd < Sinatra::Base
 
   get "/api/temp" do
     if session[:username]
-      users = DB[:users]
       @temp = DB[%Q(select * from temp_sensors order by date desc;)].first
-      @user = users.where(username: session[:username]).first
     end
     @title = "Elder Net"
     erb :index
