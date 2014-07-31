@@ -112,3 +112,8 @@ input {
 .mt {
 	margin-bottom: 2em;
 }
+
+.temp_center { 
+	margin: auto;
+	margin-top: 25%;
+}

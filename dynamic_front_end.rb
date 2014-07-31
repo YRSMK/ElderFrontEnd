@@ -46,6 +46,7 @@ class DynamicFrontEnd < Sinatra::Base
   get "/" do
     if session[:username]
       users = DB[:users]
+      @temp = DB[:temp_sensors].order(:date).first
       @user = users.where(username: session[:username]).first
     end
     @title = "Elder Net"
@@ -123,13 +124,19 @@ class DynamicFrontEnd < Sinatra::Base
 
   get "/logout" do
     session['username'] = nil
+    session.delete(:dropbox_access_token)
     redirect "/"
   end
 
   get "/news" do
     auth!
     @title = "Elder Net"
-    @articles = DB[:articles].limit(30)
+    get_tags = DB[%Q(select tag.tag from tag, t_connections, users where users.id = t_connections.uid_ and tag.id = t_connections.tid and t_connections.orig = 0 and users.username = "#{session[:username]}";)].all
+    @articles = []
+    get_tags.each do |tag|
+      article = DB[%Q(select articles.name, articles.url, articles.simplified, articles.date_p from articles, users, tag, t_connections where tag.tag = '#{tag[:tag]}' and tag.id = t_connections.tid and t_connections.orig = 1 and articles.id = t_connections.uid_ order by articles.date_p desc limit 30;)]
+       @articles.push(article)
+    end
     erb :news
   end
 
@@ -211,4 +218,5 @@ class DynamicFrontEnd < Sinatra::Base
     session['dropbox_access_token'] = dropbox_access_token
     redirect to '/'
   end
+
 end

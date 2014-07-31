@@ -98,10 +98,10 @@
 							<% @articles.each do |article|%>
 							<tr>
 								<td>
-									<%=article[:date_p]%>
+									<%=article[:date_p][:date_p]%>
 								</td>
 								<td>
-									<%=article[:simplified]%>
+									<%=article[:simplified][:simplified]%>
 								</td>
 							</tr>
 							<%end%>
