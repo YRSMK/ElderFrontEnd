@@ -7,7 +7,7 @@ class DynamicFrontEnd < Sinatra::Base
   enable :sessions
   use Rack::Flash
   set :session_secret, "e9a37a7612ad2b501c648ccba28b4a539e31c9a732452b677b2b7d39d9daa39da18b06da24b9efdfd5ea312789ded1fd776bc722f842f66a02d3357c246c56de"
-  $redis = Redis.new(:url => REDISCLOUD_URL)
+  $redis = Redis.new(:url => ENV["REDISCLOUD_URL"])
   ##########################################
   # Methods                                #
   ##########################################
