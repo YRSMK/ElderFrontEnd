@@ -35,9 +35,17 @@ class DynamicFrontEnd < Sinatra::Base
   get '/api/getfiles/dropbox' do
     session['dropbox_access_token'] ||= ''
     if session['dropbox_access_token'] != ''
-        content_type :json
-        search = get_dropbox_client.metadata('/')["contents"]
-        Oj.dump(search)
+      content_type :json
+      search = get_dropbox_client.metadata('/')["contents"]
+      media = []
+      search.each do |item|
+        if !item["mime_type"].nil?
+          if item["mime_type"].include?("image")
+            media.push(get_dropbox_client.media(item["path"]))
+          end
+        end
+      end
+      Oj.dump(media)
     else
       Oj.dump({status: "failed"})
     end
@@ -135,7 +143,7 @@ class DynamicFrontEnd < Sinatra::Base
     @articles = []
     get_tags.each do |tag|
       article = DB[%Q(select articles.name, articles.url, articles.simplified, articles.date_p from articles, users, tag, t_connections where tag.tag = '#{tag[:tag]}' and tag.id = t_connections.tid and t_connections.orig = 1 and articles.id = t_connections.uid_ order by articles.date_p desc limit 30;)]
-       @articles.push(article)
+      @articles.push(article)
     end
     erb :news
   end
