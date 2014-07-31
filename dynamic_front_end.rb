@@ -3,11 +3,16 @@ require 'dropbox_sdk'
 
 class DynamicFrontEnd < Sinatra::Base
 
+  if ENV['RACK_ENV'] == "production"
+    use Rack::SSL
+  end
+
   set :public_folder => "public", :static => true
   enable :sessions
   use Rack::Flash
   set :session_secret, "e9a37a7612ad2b501c648ccba28b4a539e31c9a732452b677b2b7d39d9daa39da18b06da24b9efdfd5ea312789ded1fd776bc722f842f66a02d3357c246c56de"
   $redis = Redis.new(:url => ENV["REDISCLOUD_URL"])
+
   ##########################################
   # Methods                                #
   ##########################################
@@ -69,11 +74,13 @@ class DynamicFrontEnd < Sinatra::Base
   end
 
   get "/api/temp" do
+    content_type :json
     if session[:username]
-      @temp = DB[%Q(select * from temp_sensors order by date desc;)].first
+      temp = DB[%Q(select * from temp_sensors order by date desc;)].all
+      json = Oj.dump(temp)
+    else
+      Oj.dump({status: "failed"})
     end
-    @title = "Elder Net"
-    erb :index
   end
 
   get "/wordsearch" do
@@ -124,6 +131,18 @@ class DynamicFrontEnd < Sinatra::Base
     erb :signup
   end
 
+  get "/login/forgot" do
+    @title = "Elder Net"
+
+    erb :forgot
+  end
+
+  post "/login/forgot" do
+    @title = "Elder Net"
+
+    erb :forgot
+  end
+
   post "/login/signup" do
     @title = "Elder Net"
     if params[:password] == params[:re_password]
@@ -150,6 +169,7 @@ class DynamicFrontEnd < Sinatra::Base
     session.delete(:dropbox_access_token)
     redirect "/"
   end
+
 
   get "/news" do
     auth!
