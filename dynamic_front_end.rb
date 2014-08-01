@@ -142,10 +142,10 @@ class DynamicFrontEnd < Sinatra::Base
 
   post "/login/forgot" do
     @title = "Elder Net"
-    if params[:username] & params[:phone]
+    if !params[:username].empty? & !params[:phone].empty?
       if !session[:forgot]
         user = DB[:users].where(username: params[:username], phone: params[:phone]).first
-        if user.empty?
+        if user.nil?
           flash[:message] = "No such username and phone number combination."
           erb :forgot
         else
@@ -153,15 +153,18 @@ class DynamicFrontEnd < Sinatra::Base
           password_salt = BCrypt::Engine.generate_salt
           password_hash = BCrypt::Engine.hash_secret(password, password_salt)
           user.update(password: password_hash, salt: password_salt)
+          flash[:message] = "You've already sent a reminder text."
           get_twilio_client.account.messages.create(
             :from => '+441685732148',
             :to => params[:phone],
-            :body => "Hey there, it's <%@title%>!
+            :body => "Hey there, it's #{@title}!
 
             Here's a new temporary password: #{password}.
 
             Please change it after logging in."
           )
+          flash[:message] = "Check your phone! We've sent you a temporary password."
+          erb :forgot
         end
       else
         flash[:message] = "You've already sent a reminder text."
