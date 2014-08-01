@@ -8,6 +8,7 @@ gem "oj"
 gem "bcrypt"
 gem 'rack-flash3'
 gem "dropbox-sdk"
+gem 'twilio-ruby', '~> 3.11'
 
 # Database Stack
 gem "sequel"

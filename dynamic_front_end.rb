@@ -1,5 +1,6 @@
 require 'rack-flash'
 require 'dropbox_sdk'
+require 'twilio-ruby'
 
 class DynamicFrontEnd < Sinatra::Base
 
@@ -33,6 +34,9 @@ class DynamicFrontEnd < Sinatra::Base
     return DropboxClient.new(session[:dropbox_access_token]) if session[:dropbox_access_token]
   end
 
+  def get_twilio_client
+    return Twilio::REST::Client.new("AC247cb8eeab6bbdfbd4af798f1fdff3ab", "27c1d1067ca9cfcd81dc59c23da5d737")
+  end
   ##########################################
   # General Routes                         #
   ##########################################
@@ -133,14 +137,40 @@ class DynamicFrontEnd < Sinatra::Base
 
   get "/login/forgot" do
     @title = "Elder Net"
-
     erb :forgot
   end
 
   post "/login/forgot" do
     @title = "Elder Net"
+    if params[:username] & params[:phone]
+      if !session[:forgot]
+        user = DB[:users].where(username: params[:username], phone: params[:phone]).first
+        if user.empty?
+          flash[:message] = "No such username and phone number combination."
+          erb :forgot
+        else
+          password = Array.new(10){[*'0'..'9', *'a'..'z', *'A'..'Z'].sample}.join
+          password_salt = BCrypt::Engine.generate_salt
+          password_hash = BCrypt::Engine.hash_secret(password, password_salt)
+          user.update(password: password_hash, salt: password_salt)
+          get_twilio_client.account.messages.create(
+            :from => '+441685732148',
+            :to => params[:phone],
+            :body => "Hey there, it's <%@title%>!
 
-    erb :forgot
+            Here's a new temporary password: #{password}.
+
+            Please change it after logging in."
+          )
+        end
+      else
+        flash[:message] = "You've already sent a reminder text."
+        erb :forgot
+      end
+    else
+      flash[:message] = "You didn't fill the form fully."
+      erb :forgot
+    end
   end
 
   post "/login/signup" do

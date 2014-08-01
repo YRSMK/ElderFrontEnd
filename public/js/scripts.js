@@ -27,12 +27,11 @@ var chart_data = [];
 
 function updateChart() {
     $.getJSON("/api/temp", function(data) {
-        $("#chartContainer").removeClass("chartContainer")
         log = "";
         if (data.length > 0) {
             $.each(data, function(key, val) {
                 chart_data.push({
-                    time: val[":date"]["^t"] * 1000,
+                    time: val[":date"]["^t"],
                     value: val[":reading"]
                 });
 
@@ -55,8 +54,6 @@ function updateChart() {
                 fillOpacity: 0.5,
                 smooth: true
             });
-        } else {
-            $("#no-sales-alert").show();
         };
     });
 };

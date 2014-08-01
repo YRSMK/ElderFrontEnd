@@ -113,7 +113,12 @@ input {
 	margin-bottom: 2em;
 }
 
-.temp_center { 
+.temp_center {
 	margin: auto;
 	margin-top: 25%;
+}
+
+#chartContainer {
+	width: 100%;
+	height: 220px;
 }

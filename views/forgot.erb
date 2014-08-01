@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>Sign In | <%=@title%></title>
+		<title>Forgot Password | <%=@title%></title>
 		<style>
 			div{
 				color: darkgray;
@@ -48,16 +48,15 @@
 		<%if flash[:message]%>
 		<div class="alert alert-warning" role="alert"><%=flash[:message]%></div>
 		<%end%>
-		<form role="form" id="form" class="table" action="/login/signin" method="post">
+		<form role="form" id="form" class="table" action="/login/forgot" method="post">
 			<div class="form-group">
 				<input type="text" name="username" placeholder="Eldername" data-validetta="required,minLength[3],maxLength[32]">
 			</div>
 			<div class="form-group">
-				<input type="password" name="password" placeholder="Elderpass" data-validetta="required,minLength[8],maxLength[64]">
+				<input type="number" name="phone" placeholder="Phone number you signed up with" data-validetta="required,minLength[11],maxLength[13],number">
 			</div>
 			<div class="form-group">
-				<button class="submit link" id="submit">Login</button>
-				<a class="submit link btn btn-default" href="/login/forgot">Forgot my password</a>
+				<button class="submit link"id="submit">Login</button>
 			</div>
 			</from>
 			<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
