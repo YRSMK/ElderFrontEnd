@@ -212,7 +212,34 @@ class DynamicFrontEnd < Sinatra::Base
     end
     erb :news
   end
+  
+def news_search(query)
+   base_url = "http://178.62.32.195"
+   url = "#{base_url}&search=#{URI.encode(query)}"
+   resp = Net::HTTP.get_response(URI.parse(url))
+   data = resp.body
 
+   # we convert the returned JSON data to native Ruby
+   # data structure - a hash
+   result = JSON.parse(data)
+
+   # if the hash has 'Error' as a key, we raise an error
+   if result.has_key? 'Error'
+      raise "web service error"
+   end
+   return result["results"]
+end
+  
+	get "/results" do
+    auth!
+    @title = "Elder Net"
+    @results = get_bing_results(params(:search))
+    
+    
+    erb :results
+    
+  end
+  
   get "/admin/apps" do
     auth!
     users = DB[:users]
